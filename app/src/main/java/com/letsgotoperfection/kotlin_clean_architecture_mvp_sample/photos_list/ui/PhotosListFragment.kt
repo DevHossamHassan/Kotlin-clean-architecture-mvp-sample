@@ -7,8 +7,8 @@ import android.view.View
 import android.widget.Toast
 import com.letsgotoperfection.kotlin_clean_architecture_mvp_sample.R
 import com.letsgotoperfection.kotlin_clean_architecture_mvp_sample.base.BaseFragment
-import com.letsgotoperfection.kotlin_clean_architecture_mvp_sample.photos_list.data.MockedPhotosListDao
 import com.letsgotoperfection.kotlin_clean_architecture_mvp_sample.photos_list.data.PhotosListBo
+import com.letsgotoperfection.kotlin_clean_architecture_mvp_sample.photos_list.data.PhotosListDao
 import kotlinx.android.synthetic.main.photo_list_fragment_layout.*
 
 /**
@@ -20,7 +20,7 @@ class PhotosListFragment : BaseFragment<PhotosListContract.Presenter>(), PhotosL
 
     override fun init() {
         presenter = PhotosListPresenter(this,
-                PhotosListBo(MockedPhotosListDao()), PhotosListModel)
+                PhotosListBo(PhotosListDao()), PhotosListModel)
     }
 
     override fun updateDate() {
