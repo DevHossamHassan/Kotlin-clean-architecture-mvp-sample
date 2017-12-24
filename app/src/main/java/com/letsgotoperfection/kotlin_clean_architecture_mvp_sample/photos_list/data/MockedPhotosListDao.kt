@@ -41,7 +41,7 @@ class MockedPhotosListDao : BasePhotosListDao() {
 
     @Throws(IOException::class, JSONException::class)
     private fun getMockedPhotosListJson(): String {
-        val classLoader = MockedPhotosListDao::class.java!!.getClassLoader()
+        val classLoader = MockedPhotosListDao::class.java.classLoader
         val resource = classLoader.getResource("photoslist.json") as URL
 
         return readFile(resource.path).replace("\n".toRegex(), "")

@@ -12,11 +12,14 @@ class PhotosListContract : BaseContract {
         fun showToast(msg: String)
         fun updateDate()
         fun updateInsertedData(itemCount: Int)
+        fun showProgressBar()
+        fun hideProgressBar()
     }
 
     interface Presenter : BaseContract.Presenter {
         fun getPhotosListSize(): Int
         fun onBindPhotoViewAtPosition(position: Int, holder: PhotoListHolder)
         fun onPhotoClicked()
+        fun onLoadMore()
     }
 }
