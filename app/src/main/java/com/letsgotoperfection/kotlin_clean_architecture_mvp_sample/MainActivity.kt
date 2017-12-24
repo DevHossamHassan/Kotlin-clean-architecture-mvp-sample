@@ -1,6 +1,7 @@
 package com.letsgotoperfection.kotlin_clean_architecture_mvp_sample
 
 import com.letsgotoperfection.kotlin_clean_architecture_mvp_sample.base.BaseActivity
+import com.letsgotoperfection.kotlin_clean_architecture_mvp_sample.photos_list.ui.PhotosListFragment
 
 class MainActivity : BaseActivity() {
 
@@ -13,6 +14,6 @@ class MainActivity : BaseActivity() {
     }
 
     override fun init() {
-        //Todo navigate to main fragment
+        NavigationManager.attachAsRoot(this, PhotosListFragment())
     }
 }

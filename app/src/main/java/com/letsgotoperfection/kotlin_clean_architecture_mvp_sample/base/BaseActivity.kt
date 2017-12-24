@@ -2,6 +2,7 @@ package com.letsgotoperfection.kotlin_clean_architecture_mvp_sample.base
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.letsgotoperfection.kotlin_clean_architecture_mvp_sample.NavigationManager
 
 /**
  * @author hossam.
@@ -19,4 +20,10 @@ abstract class BaseActivity : AppCompatActivity() {
             init()
         }
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        NavigationManager.navigateBack(this)
+    }
+
 }
