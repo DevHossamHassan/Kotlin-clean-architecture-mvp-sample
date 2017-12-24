@@ -20,7 +20,7 @@ class PhotoListAdapter(private val presenter: PhotosListPresenter) : RecyclerVie
                         .inflate(R.layout.photo_list_item, parent, false)),
                 object : OnRecyclerViewClickListener {
                     override fun onRecyclerViewItemClicked(v: View, position: Int) {
-                        presenter.onPhotoClicked()
+                        //todo  implement on photoClicked
                     }
                 })
 

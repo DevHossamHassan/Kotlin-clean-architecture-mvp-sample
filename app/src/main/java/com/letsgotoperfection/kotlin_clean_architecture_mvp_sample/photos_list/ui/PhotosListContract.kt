@@ -19,7 +19,6 @@ class PhotosListContract : BaseContract {
     interface Presenter : BaseContract.Presenter {
         fun getPhotosListSize(): Int
         fun onBindPhotoViewAtPosition(position: Int, holder: PhotoListHolder)
-        fun onPhotoClicked()
         fun onLoadMore()
     }
 }

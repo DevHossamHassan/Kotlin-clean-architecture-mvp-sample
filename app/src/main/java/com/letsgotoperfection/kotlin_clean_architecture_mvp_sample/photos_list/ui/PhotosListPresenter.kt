@@ -15,26 +15,7 @@ class PhotosListPresenter(private var photosListView: PhotosListContract.View,
                           private var photosListBo: PhotosListBo, private var photosListModel: PhotosListModel) : PhotosListContract.Presenter {
 
     init {
-        photosListView.showProgressBar()
-        photosListBo.fetchPhotos()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { it ->
-                            if (photosListModel.photoList.items == null) {
-                                photosListModel.photoList.items = it.items
-                                photosListView.updateDate()
-                            } else {
-                                photosListModel.photoList.items?.addAll(it.items as MutableList<Photo>)
-                                photosListView.updateInsertedData(it.items?.size?:0)
-                            }
-                            photosListView.hideProgressBar()
-                        },
-                        { e ->
-                            photosListView.hideProgressBar()
-                            photosListView.showToast("There is no photos to display them " + e.message)
-                        })
-
+        loadPhotos()
     }
 
     override fun getPhotosListSize(): Int {
@@ -50,8 +31,11 @@ class PhotosListPresenter(private var photosListView: PhotosListContract.View,
 
 
     override fun onLoadMore() {
-        photosListView.showProgressBar()
+        loadPhotos()
+    }
 
+    private fun loadPhotos() {
+        photosListView.showProgressBar()
         photosListBo.fetchPhotos()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -71,10 +55,5 @@ class PhotosListPresenter(private var photosListView: PhotosListContract.View,
                             photosListView.hideProgressBar()
                             photosListView.showToast("Something went wrong! :" + e.message)
                         })
-
-    }
-
-    override fun onPhotoClicked() {
-
     }
 }
