@@ -1,27 +1,40 @@
 package com.letsgotoperfection.kotlin_clean_architecture_mvp_sample.photos_list.data
 
 import com.letsgotoperfection.kotlin_clean_architecture_mvp_sample.API.RetrofitProvider
+import com.letsgotoperfection.kotlin_clean_architecture_mvp_sample.RxTestRule
 import com.letsgotoperfection.kotlin_clean_architecture_mvp_sample.models.Media
 import com.letsgotoperfection.kotlin_clean_architecture_mvp_sample.models.Photo
 import com.letsgotoperfection.kotlin_clean_architecture_mvp_sample.models.PhotosList
+import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Single.just
 import io.reactivex.observers.TestObserver
+import org.hamcrest.CoreMatchers.`is`
+import org.junit.Assert.assertThat
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
-import org.mockito.Mockito.`when`
+import org.mockito.junit.MockitoJUnit
 
 /**
  * @author hossam.
  */
 class PhotosListDaoTest {
+    @Rule
+    @JvmField
+    val rule = MockitoJUnit.rule()!!
+
+    @Rule
+    @JvmField
+    var testSchedulerRule = RxTestRule()
+
     private val mockedListDao = PhotosListDao()
     private val retrofitProvider = Mockito.mock(RetrofitProvider::class.java)
 
     @Before
     fun setUp() {
         val photosListObject: PhotosList = getPhotosListObject()
-        `when`(retrofitProvider.loadPhotosList()).thenReturn(just(photosListObject))
+        `whenever`(retrofitProvider.loadPhotosList()).thenReturn(just(photosListObject))
     }
 
     @Test
@@ -30,6 +43,19 @@ class PhotosListDaoTest {
         testObserver.assertNoErrors()
     }
 
+    @Test
+    fun shouldReturnTrueIfPhotosListHas20Items() {
+        val result = mockedListDao.fetchPhotosList()
+
+        val testObserver = TestObserver<PhotosList>()
+
+        result.subscribe(testObserver)
+        testObserver.assertComplete()
+        testObserver.assertNoErrors()
+        testObserver.assertValueCount(1)
+        val listResult = testObserver.values()[0]
+        assertThat(listResult.items?.size, `is`(20))
+    }
 
     private fun getPhotosListObject(): PhotosList {
         val photo = getPreparedPhotoObject()
